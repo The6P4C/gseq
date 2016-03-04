@@ -1,5 +1,14 @@
 var VALID_NUMBERS = /^[\d.]+$/;
 
+function validatePoints(points) {
+	for (var i = 0; i < points.length; ++i) {
+		if (!VALID_NUMBERS.test(points[i].y)) {
+			return false;
+		}
+	}
+	return true;
+}
+
 function runSequence(functions, constants) {
 	var parser = math.parser();
 
@@ -17,6 +26,10 @@ function runSequence(functions, constants) {
 
 	var cache = {};
 	parser.set("f", function(v) {
+		if (v < 1) {
+			throw "Value of n was less than or equal to 1";
+		}
+
 		if (cache.hasOwnProperty(v)) {
 			return cache[v];
 		}
@@ -39,16 +52,11 @@ function runSequence(functions, constants) {
 		points.push({x: i, y: f(i)});
 	}
 
-	return points;
-}
-
-function validatePoints(points) {
-	for (var i = 0; i < points.length; ++i) {
-		if (!VALID_NUMBERS.test(points[i].y)) {
-			return false;
-		}
+	if (!validatePoints(points)) {
+		throw "One or more points of the sequence were invalid. Refer to the table of values.";
 	}
-	return true;
+
+	return points;
 }
 
 angular.module("gseq", [])
@@ -98,14 +106,14 @@ angular.module("gseq", [])
 				constants[$scope.ALPHABET[i]] = $scope.constants[i];
 			}
 
-			var points = runSequence(functions, constants);
-			if (validatePoints(points)) {
-				Graph.update(points);
-				$scope.points = points;
-			} else {
-				Graph.update([]);
-				$scope.points = [];
-				alert("Some points of the sequence were invalid. Refer to the table of values.");
+			var points;
+			try {
+				points = runSequence(functions, constants);
+			} catch (e) {
+				alert("Error: " + e);
+				points = [];
 			}
+			Graph.update(points);
+			$scope.points = points;
 		};
 	}]);
