@@ -1,4 +1,4 @@
-var VALID_NUMBERS = /^[\d.]+$/;
+var VALID_NUMBERS = /^[\d.-]+$/;
 
 function validatePoints(points) {
 	for (var i = 0; i < points.length; ++i) {
