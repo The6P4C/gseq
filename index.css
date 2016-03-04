@@ -1,3 +1,7 @@
 #graphContainer {
 	text-align: center;
 }
+
+.function, .constant {
+	padding-bottom: 5px;
+}
