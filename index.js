@@ -15,15 +15,9 @@ function runSequence(functions, constants) {
 
 	var cache = {};
 	parser.set("f", function(v) {
-		console.log(v);
-		console.log(cache);
-
 		if (cache.hasOwnProperty(v)) {
-			console.log("HIT");
 			return cache[v];
 		}
-
-		console.log("MISS");
 
 		var ret;
 		if (functions.hasOwnProperty(v)) {
@@ -42,8 +36,6 @@ function runSequence(functions, constants) {
 	for (var i = 1; i < 51; ++i) {
 		points.push({x: i, y: f(i)});
 	}
-
-	console.log(cache);
 
 	return points;
 }
