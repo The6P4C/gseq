@@ -18,3 +18,7 @@
 	fill: none;
 	shape-rendering: smoothEdges;
 }
+
+.tooltip > text {
+	fill: #777;
+}

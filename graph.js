@@ -44,6 +44,12 @@ var Graph = {
 				.attr("dy", ".7em")
 				.text("f(n)");
 
+		var tooltip = svg.append("g")
+				.attr("class", "tooltip")
+				.attr("transform", "translate(5, " + (height - 5) + ")")
+				.style("opacity", 0);
+		var tooltipText = tooltip.append("text");
+
 		Graph.update = function(data) {
 			// Subtract one from minimum and add one to maximum so that the points
 			// don't intersect with either axis
@@ -72,7 +78,14 @@ var Graph = {
 					.attr("class", "point")
 					.attr("r", 3.5)
 					.attr("cx", xMap)
-					.attr("cy", yMap);
+					.attr("cy", yMap)
+					.on("mouseover", function(d) {
+						tooltip.style("opacity", 1);
+						tooltipText.text("n = " + xValue(d) + "; f(n) = " + yValue(d));
+					})
+					.on("mouseout", function() {
+						tooltip.style("opacity", 0);
+					});
 		}
 	}
 };
