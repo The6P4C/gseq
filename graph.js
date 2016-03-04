@@ -50,15 +50,15 @@ var Graph = {
 			xScale.domain([d3.min(data, xValue) - 1, d3.max(data, xValue) + 1]);
 			yScale.domain([d3.min(data, yValue) - 1, d3.max(data, yValue) + 1]);
 
-			console.log(d3.min(data, yValue));
-
 			var lineFunction = d3.svg.line()
 					.x(xMap)
 					.y(yMap)
 					.interpolate("linear");
 
-			xAxisEl.call(xAxis);
-			yAxisEl.call(yAxis);
+			xAxisEl.transition().duration(200)
+					.call(xAxis);
+			yAxisEl.transition().duration(200)
+					.call(yAxis);
 
 			svg.select("path.line").remove();
 			svg.append("path")
