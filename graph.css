@@ -1,0 +1,20 @@
+.axis path, .axis line {
+	fill: none;
+	stroke: #000;
+	shape-rendering: crispEdges;
+}
+
+.graph {
+	font-size: 12px;
+}
+
+.label {
+	text-anchor: end;
+}
+
+.line {
+	stroke: #555;
+	stroke-width: 1.5px;
+	fill: none;
+	shape-rendering: smoothEdges;
+}
