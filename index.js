@@ -5,7 +5,7 @@ angular.module("gseq", [])
 		var inputController = this;
 
 		inputController.init = function() {
-			Graph.init("#graphContainer");
+			Graph.init("#graph-container");
 			Graph.update([
 				{x: 1, y: 1},
 				{x: 2, y: 10},
@@ -65,5 +65,9 @@ angular.module("gseq", [])
 
 		inputController.removeConstant = function(name) {
 			inputController.constants.splice(ALPHABET.indexOf(name), 1);
+		};
+
+		inputController.run = function() {
+			alert("Run Button Clicked");
 		};
 	});

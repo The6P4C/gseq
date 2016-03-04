@@ -1,7 +1,11 @@
-#graphContainer {
-	text-align: center;
+.function, .constant {
+	margin-bottom: 5px;
 }
 
-.function, .constant {
-	padding-bottom: 5px;
+#run-button {
+	margin-top: 5px;
+}
+
+#graph-container {
+	text-align: center;
 }
