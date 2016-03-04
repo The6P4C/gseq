@@ -1,24 +1,24 @@
 var ALPHABET = "abcdefghijklmnopqrstuvwxyz";
 
-$(document).ready(function() {
-	Graph.init("#graphContainer");
-	Graph.update([
-		{x: 1, y: 1},
-		{x: 2, y: 10},
-		{x: 3, y: 2},
-		{x: 4, y: 9},
-		{x: 5, y: 3},
-		{x: 6, y: 8},
-		{x: 7, y: 4},
-		{x: 8, y: 7},
-		{x: 9, y: 5},
-		{x: 10, y: 6}
-	]);
-});
-
 angular.module("gseq", [])
 	.controller("InputController", function() {
 		var inputController = this;
+
+		inputController.init = function() {
+			Graph.init("#graphContainer");
+			Graph.update([
+				{x: 1, y: 1},
+				{x: 2, y: 10},
+				{x: 3, y: 2},
+				{x: 4, y: 9},
+				{x: 5, y: 3},
+				{x: 6, y: 8},
+				{x: 7, y: 4},
+				{x: 8, y: 7},
+				{x: 9, y: 5},
+				{x: 10, y: 6}
+			]);
+		};
 
 		inputController.functions = ["2", "3", "4"];
 		inputController.mainFunction = "f(n-1) / f(n-2) + f(n-3)";
