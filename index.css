@@ -9,3 +9,8 @@
 #graph-container {
 	text-align: center;
 }
+
+#table-of-values {
+	width: 250px;
+	margin: 0px auto;
+}

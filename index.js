@@ -84,6 +84,8 @@ angular.module("gseq", [])
 			$scope.constants.splice(index, 1);
 		};
 
+		$scope.points = [];
+
 		this.run = function() {
 			var functions = {};
 			for (var i = 0; i < $scope.functions.length; ++i) {
@@ -99,9 +101,11 @@ angular.module("gseq", [])
 			var points = runSequence(functions, constants);
 			if (validatePoints(points)) {
 				Graph.update(points);
+				$scope.points = points;
 			} else {
 				Graph.update([]);
-				alert("Some points of the sequence were invalid.");
+				$scope.points = [];
+				alert("Some points of the sequence were invalid. Refer to the table of values.");
 			}
 		};
 	}]);

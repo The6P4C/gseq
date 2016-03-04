@@ -8,52 +8,64 @@
 		<link href='index.css' rel='stylesheet'>
 	</head>
 	<body>
-		<div class='container'>
+		<div class='container' ng-controller='InputController as inputController' ng-init='inputController.init()'>
 			<h1>GSeq</h1>
 
-			<div ng-controller='InputController as inputController' ng-init='inputController.init()'>
-				<div class='row'>
-					<div class='col-md-6'>
-						<h4>Functions</h4>
-						<div class='function' ng-repeat='function in functions track by $index'>
-							<div class='input-group'>
-								<span class='input-group-addon'>f({{$index + 1}}) =</span>
-								<input class='form-control' type='text' ng-model='functions[$index]'>
-								<div class='input-group-btn'>
-									<button class='btn btn-danger' type='button' ng-click='inputController.removeFunction($index)'>X</button>
-								</div>
+			<div class='row'>
+				<div class='col-md-6'>
+					<h4>Functions</h4>
+					<div class='function' ng-repeat='function in functions track by $index'>
+						<div class='input-group'>
+							<span class='input-group-addon'>f({{$index + 1}}) =</span>
+							<input class='form-control' type='text' ng-model='functions[$index]'>
+							<div class='input-group-btn'>
+								<button class='btn btn-danger' type='button' ng-click='inputController.removeFunction($index)'>X</button>
 							</div>
 						</div>
-						<div class='function'>
-							<div class='input-group'>
-								<span class='input-group-addon'>f(n) =</span>
-								<input class='form-control' type='text' ng-model='mainFunction'>
-								<div class='input-group-btn'>
-								</div>
-							</div>
-						</div>
-						<button class='btn btn-default' type='button' ng-click='inputController.addFunction()'>Add</button>
 					</div>
-
-					<div class='col-md-6'>
-						<h4>Constants</h4>
-						<div class='constant' ng-repeat='constant in constants track by $index'>
-							<div class='input-group'>
-								<span class='input-group-addon'>{{ALPHABET[$index]}} =</span>
-								<input class='form-control' type='text' ng-model='constants[$index]'>
-								<div class='input-group-btn'>
-									<button class='btn btn-danger' type='button' ng-click='inputController.removeConstant($index)'>X</button>
-								</div>
-							</div>
+					<div class='function'>
+						<div class='input-group'>
+							<span class='input-group-addon'>f(n) =</span>
+							<input class='form-control' type='text' ng-model='mainFunction'>
 						</div>
-						<button class='btn btn-default' type='button' ng-click='inputController.addConstant()'>Add</button>
 					</div>
+					<button class='btn btn-default' type='button' ng-click='inputController.addFunction()'>Add</button>
 				</div>
 
-				<button id='run-button' class='btn btn-primary' type='button' ng-click='inputController.run()'>Run</button>
+				<div class='col-md-6'>
+					<h4>Constants</h4>
+					<div class='constant' ng-repeat='constant in constants track by $index'>
+						<div class='input-group'>
+							<span class='input-group-addon'>{{ALPHABET[$index]}} =</span>
+							<input class='form-control' type='text' ng-model='constants[$index]'>
+							<div class='input-group-btn'>
+								<button class='btn btn-danger' type='button' ng-click='inputController.removeConstant($index)'>X</button>
+							</div>
+						</div>
+					</div>
+					<button class='btn btn-default' type='button' ng-click='inputController.addConstant()'>Add</button>
+				</div>
 			</div>
 			
+			<button id='run-button' class='btn btn-primary' type='button' ng-click='inputController.run()'>Run</button>
+
 			<div id='graph-container'></div>
+
+			<h3>Table of Values</h3>
+			<div id='table-of-values'>
+				<table class='table table-bordered table-striped'>
+					<thead>
+						<tr>
+							<th>X</th>
+							<th>Y</th>
+						</tr>
+					</thead>
+					<tr ng-repeat='point in points'>
+						<td class='col-md-6'>{{point.x}}</td>
+						<td class='col-md-6'>{{point.y}}</td>
+					</tr>
+				</table>
+			</div>
 		</div>
 
 		<script src='https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js'></script>
