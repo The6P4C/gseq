@@ -9,7 +9,7 @@ function validatePoints(points) {
 	return true;
 }
 
-function runSequence(functions, constants) {
+function runSequence(functions, constants, maxX) {
 	var parser = math.parser();
 
 	for (var name in constants) {
@@ -48,7 +48,7 @@ function runSequence(functions, constants) {
 
 	var f = parser.get("f");
 	var points = [];
-	for (var i = 1; i < 51; ++i) {
+	for (var i = 1; i < maxX + 1; ++i) {
 		points.push({x: i, y: f(i)});
 	}
 
@@ -92,6 +92,8 @@ angular.module("gseq", [])
 			$scope.constants.splice(index, 1);
 		};
 
+		$scope.xMax = 50;
+
 		$scope.points = [];
 
 		this.run = function() {
@@ -108,7 +110,7 @@ angular.module("gseq", [])
 
 			var points;
 			try {
-				points = runSequence(functions, constants);
+				points = runSequence(functions, constants, $scope.xMax);
 			} catch (e) {
 				alert("Error: " + e);
 				points = [];
