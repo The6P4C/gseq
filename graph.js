@@ -1,5 +1,5 @@
 var Graph = {
-	init: function(graphContainerSelector, data) {
+	init: function(graphContainerSelector) {
 		var margins = { top: 20, right: 20, bottom: 40, left: 40 };
 		var outerWidth = 900;
 		var width = outerWidth - margins.left - margins.right;
@@ -23,25 +23,20 @@ var Graph = {
 			.append("g")
 				.attr("transform", "translate(" + margins.left + ", " + margins.top + ")");
 
-		// Subtract one from minimum and add one to maximum so that the points
-		// don't intersect with either axis
-		xScale.domain([d3.min(data, xValue) - 1, d3.max(data, xValue) + 1]);
-		yScale.domain([d3.min(data, yValue) - 1, d3.max(data, yValue) + 1]);
-
-		svg.append("g")
+		var xAxisEl = svg.append("g")
 				.attr("class", "x axis")
-				.attr("transform", "translate(0, " + height + ")")
-				.call(xAxis)
-			.append("text")
+				.attr("transform", "translate(0, " + height + ")");
+
+		svg.append("text")
 				.attr("class", "label")
 				.attr("x", width / 2)
-				.attr("y", -6)
+				.attr("y", height - 10)
 				.text("n");
 
-		svg.append("g")
+		var yAxisEl = svg.append("g")
 				.attr("class", "y axis")
-				.call(yAxis)
-			.append("text")
+
+		svg.append("text")
 				.attr("class", "label")
 				.attr("transform", "rotate(-90)")
 				.attr("x", -height / 2)
@@ -49,21 +44,35 @@ var Graph = {
 				.attr("dy", ".7em")
 				.text("f(n)");
 
-		var lineFunction = d3.svg.line()
-				.x(xMap)
-				.y(yMap)
-				.interpolate("linear");
+		Graph.update = function(data) {
+			// Subtract one from minimum and add one to maximum so that the points
+			// don't intersect with either axis
+			xScale.domain([d3.min(data, xValue) - 1, d3.max(data, xValue) + 1]);
+			yScale.domain([d3.min(data, yValue) - 1, d3.max(data, yValue) + 1]);
 
-		svg.append("path")
-				.attr("class", "line")
-				.attr("d", lineFunction(data));
+			console.log(d3.min(data, yValue));
 
-		svg.selectAll(".point")
-				.data(data)
-			.enter().append("circle")
-				.attr("class", "point")
-				.attr("r", 3.5)
-				.attr("cx", xMap)
-				.attr("cy", yMap)
+			var lineFunction = d3.svg.line()
+					.x(xMap)
+					.y(yMap)
+					.interpolate("linear");
+
+			xAxisEl.call(xAxis);
+			yAxisEl.call(yAxis);
+
+			svg.select("path.line").remove();
+			svg.append("path")
+					.attr("class", "line")
+					.attr("d", lineFunction(data));
+
+			svg.selectAll(".point").remove();
+			svg.selectAll(".point")
+					.data(data)
+				.enter().append("circle")
+					.attr("class", "point")
+					.attr("r", 3.5)
+					.attr("cx", xMap)
+					.attr("cy", yMap);
+		}
 	}
 };
