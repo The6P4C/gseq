@@ -1,4 +1,4 @@
-var ALPHABET = "abcdefghijklmnopqrstuvwxyz";
+var ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
 angular.module("gseq", [])
 	.controller("InputController", function() {
