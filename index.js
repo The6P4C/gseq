@@ -1,3 +1,5 @@
+var VALID_NUMBERS = /^[\d.]+$/;
+
 function runSequence(functions, constants) {
 	var parser = math.parser();
 
@@ -40,10 +42,20 @@ function runSequence(functions, constants) {
 	return points;
 }
 
+function validatePoints(points) {
+	for (var i = 0; i < points.length; ++i) {
+		if (!VALID_NUMBERS.test(points[i].y)) {
+			return false;
+		}
+	}
+	return true;
+}
+
 angular.module("gseq", [])
 	.controller("InputController", ["$scope", function($scope) {
 		this.init = function() {
 			Graph.init("#graph-container");
+			this.run();
 		};
 
 		$scope.functions = ["A"];
@@ -65,7 +77,7 @@ angular.module("gseq", [])
 				alert("Cannot add constant: constant limit reached");
 			} else {
 				$scope.constants.push(0);
-			}			
+			}
 		};
 
 		this.removeConstant = function(index) {
@@ -84,6 +96,12 @@ angular.module("gseq", [])
 				constants[$scope.ALPHABET[i]] = $scope.constants[i];
 			}
 
-			Graph.update(runSequence(functions, constants));
+			var points = runSequence(functions, constants);
+			if (validatePoints(points)) {
+				Graph.update(points);
+			} else {
+				Graph.update([]);
+				alert("Some points of the sequence were invalid.");
+			}
 		};
 	}]);
