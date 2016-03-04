@@ -13,10 +13,7 @@ function runSequence(functions, constants) {
 		}
 	}
 
-	console.log(functions);
-
 	parser.set("f", function(v) {
-		console.log(v);
 		if (functions.hasOwnProperty(v)) {
 			return functions[v];
 		} else {
