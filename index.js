@@ -53,7 +53,7 @@ function runSequence(functions, constants) {
 	}
 
 	if (!validatePoints(points)) {
-		throw "One or more points of the sequence were invalid. Refer to the table of values.";
+		throw "One or more points of the sequence were invalid.";
 	}
 
 	return points;
