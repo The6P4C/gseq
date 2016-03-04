@@ -1,6 +1,6 @@
 var Graph = {
 	init: function(graphContainerSelector) {
-		var margins = { top: 20, right: 20, bottom: 40, left: 40 };
+		var margins = { top: 20, right: 20, bottom: 40, left: 60 };
 		var outerWidth = 900;
 		var width = outerWidth - margins.left - margins.right;
 		var outerHeight = 675;

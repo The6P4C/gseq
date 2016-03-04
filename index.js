@@ -13,12 +13,28 @@ function runSequence(functions, constants) {
 		}
 	}
 
+	var cache = {};
 	parser.set("f", function(v) {
-		if (functions.hasOwnProperty(v)) {
-			return functions[v];
-		} else {
-			return functions["n"](v);
+		console.log(v);
+		console.log(cache);
+
+		if (cache.hasOwnProperty(v)) {
+			console.log("HIT");
+			return cache[v];
 		}
+
+		console.log("MISS");
+
+		var ret;
+		if (functions.hasOwnProperty(v)) {
+			ret = functions[v];
+		} else {
+			ret = functions["n"](v);
+		}
+
+		cache[v] = ret;
+
+		return ret;
 	});
 
 	var f = parser.get("f");
@@ -27,7 +43,9 @@ function runSequence(functions, constants) {
 		points.push({x: i, y: f(i)});
 	}
 
-	Graph.update(points);
+	console.log(cache);
+
+	return points;
 }
 
 angular.module("gseq", [])
@@ -74,6 +92,6 @@ angular.module("gseq", [])
 				constants[$scope.ALPHABET[i]] = $scope.constants[i];
 			}
 
-			runSequence(functions, constants);
+			Graph.update(runSequence(functions, constants));
 		};
 	}]);
