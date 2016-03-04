@@ -1,23 +1,46 @@
+function runSequence(functions, constants) {
+	var parser = math.parser();
+
+	for (var name in constants) {
+		parser.set(name, parser.eval(""+constants[name]));
+	}
+
+	for (var n in functions) {
+		if (n != "n") {
+			functions[n] = parser.eval(functions[n]);
+		} else {
+			functions[n] = parser.eval("f(n)=" + functions[n]);
+		}
+	}
+
+	console.log(functions);
+
+	parser.set("f", function(v) {
+		console.log(v);
+		if (functions.hasOwnProperty(v)) {
+			return functions[v];
+		} else {
+			return functions["n"](v);
+		}
+	});
+
+	var f = parser.get("f");
+	var points = [];
+	for (var i = 1; i < 51; ++i) {
+		points.push({x: i, y: f(i)});
+	}
+
+	Graph.update(points);
+}
+
 angular.module("gseq", [])
 	.controller("InputController", ["$scope", function($scope) {
 		this.init = function() {
 			Graph.init("#graph-container");
-			Graph.update([
-				{x: 1, y: 1},
-				{x: 2, y: 10},
-				{x: 3, y: 2},
-				{x: 4, y: 9},
-				{x: 5, y: 3},
-				{x: 6, y: 8},
-				{x: 7, y: 4},
-				{x: 8, y: 7},
-				{x: 9, y: 5},
-				{x: 10, y: 6}
-			]);
 		};
 
-		$scope.functions = ["bab"];
-		$scope.mainFunction = "";
+		$scope.functions = ["A"];
+		$scope.mainFunction = "f(n-1) + A";
 
 		this.addFunction = function() {
 			$scope.functions.push("");
@@ -39,8 +62,21 @@ angular.module("gseq", [])
 		};
 
 		this.removeConstant = function(index) {
-			console.log($scope.constants);
 			$scope.constants.splice(index, 1);
-			console.log($scope.constants);
+		};
+
+		this.run = function() {
+			var functions = {};
+			for (var i = 0; i < $scope.functions.length; ++i) {
+				functions[i + 1] = $scope.functions[i];
+			}
+			functions["n"] = $scope.mainFunction;
+
+			var constants = {};
+			for (var i = 0; i < $scope.constants.length; ++i) {
+				constants[$scope.ALPHABET[i]] = $scope.constants[i];
+			}
+
+			runSequence(functions, constants);
 		};
 	}]);
