@@ -1,10 +1,6 @@
-var ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-
 angular.module("gseq", [])
-	.controller("InputController", function() {
-		var inputController = this;
-
-		inputController.init = function() {
+	.controller("InputController", ["$scope", function($scope) {
+		this.init = function() {
 			Graph.init("#graph-container");
 			Graph.update([
 				{x: 1, y: 1},
@@ -20,54 +16,31 @@ angular.module("gseq", [])
 			]);
 		};
 
-		inputController.functions = ["2", "3", "4"];
-		inputController.mainFunction = "f(n-1) / f(n-2) + f(n-3)";
+		$scope.functions = ["bab"];
+		$scope.mainFunction = "";
 
-		inputController.getFunctions = function() {
-			var ret = {};
-
-			for (var i = 0; i < inputController.functions.length; ++i) {
-				ret[i] = inputController.functions[i];
-			}
-
-			ret['n'] = inputController.mainFunction;
-
-			return ret;
+		this.addFunction = function() {
+			$scope.functions.push("");
 		};
 
-		inputController.addFunction = function() {
-			inputController.functions.push("");
-		};
+		this.removeFunction = function(index) {
+			$scope.functions.splice(index, 1);
+		}
 
-		inputController.removeFunction = function(index) {
-			inputController.functions.splice(index, 1);
-		};
+		$scope.ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+		$scope.constants = [10];
 
-		inputController.constants = ["10", "5", "2"];
-
-		inputController.getConstants = function() {
-			var ret = {};
-
-			for (var i = 0; i < inputController.constants.length; ++i) {
-				ret[ALPHABET[i]] = inputController.constants[i];
-			}
-
-			return ret;
-		};
-
-		inputController.addConstant = function() {
-			if (inputController.constants.length != ALPHABET.length) {
-				inputController.constants.push("");
+		this.addConstant = function() {
+			if ($scope.constants.length == $scope.ALPHABET.length) {
+				alert("Cannot add constant: constant limit reached");
 			} else {
-				alert("Cannot add new constant: constant limit reached");
-			}
+				$scope.constants.push(0);
+			}			
 		};
 
-		inputController.removeConstant = function(name) {
-			inputController.constants.splice(ALPHABET.indexOf(name), 1);
+		this.removeConstant = function(index) {
+			console.log($scope.constants);
+			$scope.constants.splice(index, 1);
+			console.log($scope.constants);
 		};
-
-		inputController.run = function() {
-			alert("Run Button Clicked");
-		};
-	});
+	}]);
