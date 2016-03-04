@@ -66,8 +66,8 @@ angular.module("gseq", [])
 			this.run();
 		};
 
-		$scope.functions = ["A"];
-		$scope.mainFunction = "f(n-1) + A";
+		$scope.functions = ["2"];
+		$scope.mainFunction = "f(1) * log(abs(f(n-1)), A)";
 
 		this.addFunction = function() {
 			$scope.functions.push("");
@@ -78,7 +78,7 @@ angular.module("gseq", [])
 		}
 
 		$scope.ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-		$scope.constants = [10];
+		$scope.constants = ["e"];
 
 		this.addConstant = function() {
 			if ($scope.constants.length == $scope.ALPHABET.length) {
